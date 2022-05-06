@@ -27,7 +27,7 @@ set expandtab
 set shiftwidth=2
 
 " Prettier
-let g:prettier#quickfix_enabled = 0
+" let g:prettier#quickfix_enabled = 0
 autocmd InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.svelte,*.yaml,*.html PrettierAsync
 
 " Telescope

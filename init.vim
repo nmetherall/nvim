@@ -55,7 +55,7 @@ set shiftwidth=2
 " Prettier
 let g:prettier#autoformat = 1
 let g:prettier#autoformat_require_pragma = 0
-autocmd InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.svelte,*.yaml,*.html PrettierAsync
+" autocmd InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.svelte,*.yaml,*.html PrettierAsync
 
 " Telescope
 lua << EOF

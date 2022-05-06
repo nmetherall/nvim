@@ -28,11 +28,22 @@ call plug#begin("~/.vim/plugged")
   Plug 'nvim-telescope/telescope.nvim'
 
   Plug 'RRethy/nvim-base16'
+  Plug 'Mofiqul/vscode.nvim'
   Plug 'xiyaowong/nvim-transparent'
 call plug#end()
 
 " Theme
-colorscheme base16-solarized-dark
+" colorscheme base16-solarized-dark
+
+" Theme 2
+" For dark theme
+let g:vscode_style = "dark"
+" Enable italic comment
+let g:vscode_italic_comment = 1
+" Disable nvim-tree background color
+let g:vscode_disable_nvimtree_bg = v:true
+colorscheme vscode
+
 let g:transparent_enabled = v:true
 
 "Tabs

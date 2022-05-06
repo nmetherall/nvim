@@ -2,6 +2,8 @@
 inoremap jk <Esc>
 set number
 
+set statusline=\PATH:\ %r%F\ \ \ \ \LINE:\ %l/%L/%P\ TIME:\ %{strftime('%c')}
+
 call plug#begin("~/.vim/plugged")
   Plug 'tpope/vim-surround'
 

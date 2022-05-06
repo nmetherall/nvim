@@ -3,6 +3,8 @@ inoremap jk <Esc>
 set number
 
 call plug#begin("~/.vim/plugged")
+  Plug 'tpope/vim-surround'
+
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'airblade/vim-gitgutter'
@@ -27,7 +29,8 @@ set expandtab
 set shiftwidth=2
 
 " Prettier
-" let g:prettier#quickfix_enabled = 0
+let g:prettier#autoformat = 1
+let g:prettier#autoformat_require_pragma = 0
 autocmd InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.svelte,*.yaml,*.html PrettierAsync
 
 " Telescope

@@ -2,7 +2,18 @@
 inoremap jk <Esc>
 set number
 
-set statusline=\PATH:\ %r%F\ \ \ \ \LINE:\ %l/%L/%P\ TIME:\ %{strftime('%c')}
+function GitBranch()
+    return trim(system("git rev-parse --abbrev-ref HEAD"))
+endfunction
+
+function! StatuslineGit()
+  let l:branchname = GitBranch()
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+endfunction
+
+set statusline+=%{StatuslineGit()}
+set statusline+=\ %r%F\ \ \ \ \ 
+set statusline+=\ %{strftime('%c')}
 
 call plug#begin("~/.vim/plugged")
   Plug 'tpope/vim-surround'

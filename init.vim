@@ -1,4 +1,4 @@
-"Keybinds"
+"Keybinds
 inoremap jk <Esc>
 set number
 
@@ -17,38 +17,27 @@ set statusline+=\ %{strftime('%c')}
 
 call plug#begin("~/.vim/plugged")
   Plug 'tpope/vim-surround'
-
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
+  Plug 'prettier/vim-prettier'
   Plug 'tpope/vim-fugitive'
   Plug 'airblade/vim-gitgutter'
-
-  Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
-
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
-
   Plug 'RRethy/nvim-base16'
   Plug 'Mofiqul/vscode.nvim'
   Plug 'xiyaowong/nvim-transparent'
 call plug#end()
 
 " Theme
-" colorscheme base16-solarized-dark
-
-" Theme 2
-" For dark theme
 let g:vscode_style = "dark"
-" Enable italic comment
 let g:vscode_italic_comment = 1
-" Disable nvim-tree background color
 let g:vscode_disable_nvimtree_bg = v:true
 colorscheme vscode
 
 let g:transparent_enabled = v:true
 
-"Tabs
+"Tabs As Spaces
 set smartindent
 set tabstop=2
 set expandtab
@@ -57,7 +46,7 @@ set shiftwidth=2
 " Prettier
 let g:prettier#autoformat = 1
 let g:prettier#autoformat_require_pragma = 0
-" autocmd InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.svelte,*.yaml,*.html PrettierAsync
+autocmd InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.svelte,*.yaml,*.html PrettierAsync
 
 " Telescope
 lua << EOF
@@ -71,6 +60,8 @@ nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+
+"Coc
 
 " Set internal encoding of vim, not needed on neovim, since coc.nvim using some
 " unicode characters in the file autoload/float.vim
@@ -172,7 +163,6 @@ augroup end
 " Example: `<leader>aap` for current paragraph
 xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
-
 " Remap keys for applying codeAction to the current buffer.
 nmap <leader>ac  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
@@ -240,4 +230,4 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 " CoC extensions
-let g:coc_global_extensions = ['coc-tsserver']
+let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-tailwindcss', 'coc-spell-checker']

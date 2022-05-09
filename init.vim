@@ -17,14 +17,18 @@ set statusline+=\ %{strftime('%c')}
 
 call plug#begin("~/.vim/plugged")
   Plug 'tpope/vim-surround'
+
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'prettier/vim-prettier'
+
   Plug 'tpope/vim-fugitive'
   Plug 'airblade/vim-gitgutter'
   Plug 'nvim-lua/plenary.nvim'
+
   Plug 'nvim-telescope/telescope.nvim'
-  Plug 'BurntSushi/ripgrep'
+  Plug 'nvim-telescope/telescope-fzf-native.nvim'
+
   Plug 'RRethy/nvim-base16'
   Plug 'Mofiqul/vscode.nvim'
   Plug 'xiyaowong/nvim-transparent'
@@ -53,7 +57,7 @@ autocmd InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.gra
 lua << EOF
 require('telescope').setup{
   defaults = {
-    file_ignore_patterns = { "node_modules" }
+    file_ignore_patterns = { "node_modules" },
   }
 }
 EOF

@@ -24,6 +24,7 @@ call plug#begin("~/.vim/plugged")
   Plug 'airblade/vim-gitgutter'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
+  Plug 'BurntSushi/ripgrep'
   Plug 'RRethy/nvim-base16'
   Plug 'Mofiqul/vscode.nvim'
   Plug 'xiyaowong/nvim-transparent'

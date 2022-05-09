@@ -3,7 +3,7 @@ inoremap jk <Esc>
 set number
 
 function GitBranch()
-    return trim(system("git rev-parse --abbrev-ref HEAD"))
+    return trim(system("git rev-parse --abbrev-ref HEAD 2>/dev/null"))
 endfunction
 
 function! StatuslineGit()
@@ -11,9 +11,13 @@ function! StatuslineGit()
   return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
 endfunction
 
-set statusline+=%{StatuslineGit()}
-set statusline+=\ %r%F\ \ \ \ \ 
-set statusline+=\ %{strftime('%c')}
+set statusline+=%#CocListBlackBlue#%{StatuslineGit()}%#StatusLine#
+set statusline+=\ \ %f 
+set statusline+=%=
+set statusline+=\ \ \ %{coc#status()}%{get(b:,'coc_current_function','')}\ 
+set statusline+=\ \ %l:%c
+set statusline+=\ %p%%
+set statusline+=\ \ %#TermCursor#\ %{strftime('%X')}\ %#StatusLine#
 
 call plug#begin("~/.vim/plugged")
   Plug 'tpope/vim-surround'
@@ -210,11 +214,6 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
-
-" Add (Neo)Vim's native statusline support.
-" NOTE: Please see `:h coc-status` for integrations with external plugins that
-" provide custom statusline: lightline.vim, vim-airline.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings for CoCList
 " Show all diagnostics.

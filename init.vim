@@ -21,6 +21,7 @@ set statusline+=\ \ %#TermCursor#\ %{strftime('%X')}\ %#StatusLine#
 
 call plug#begin("~/.vim/plugged")
   Plug 'tpope/vim-surround'
+  Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -234,4 +235,4 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 " CoC extensions
-let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-tailwindcss', 'coc-spell-checker']
+let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-tailwindcss', 'coc-spell-checker', 'coc-pairs', 'coc-emmet', 'coc-css', 'coc-html']

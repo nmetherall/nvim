@@ -21,7 +21,9 @@ set statusline+=\ \ %#TermCursor#\ %{strftime('%X')}\ %#StatusLine#
 
 call plug#begin("~/.vim/plugged")
   Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-commentary'
   Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+  Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -70,6 +72,15 @@ nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+
+" JSX commentstring
+lua << EOF
+require('nvim-treesitter.configs').setup {
+  context_commentstring = {
+    enable = true
+  }
+}
+EOF
 
 "Coc
 

@@ -24,6 +24,7 @@ call plug#begin("~/.vim/plugged")
   Plug 'tpope/vim-commentary'
   Plug 'mg979/vim-visual-multi', {'branch': 'master'}
   Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+  Plug 'phaazon/hop.nvim'
 
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -76,11 +77,20 @@ nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 " JSX commentstring
 lua << EOF
 require('nvim-treesitter.configs').setup {
+  highlight = {
+    enable = true,
+  },
   context_commentstring = {
     enable = true
   }
 }
 EOF
+
+"hop
+lua << EOF
+require('hop').setup { keys = 'etovxqpdygfblzhckisuran', jump_on_sole_occurrence = false }
+EOF
+nnoremap <leader>h <cmd>lua require('hop').hint_words()<cr>
 
 "Coc
 

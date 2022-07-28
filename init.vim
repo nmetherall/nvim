@@ -22,6 +22,7 @@ set statusline+=\ \ %#TermCursor#\ %{strftime('%X')}\ %#StatusLine#
 call plug#begin("~/.vim/plugged")
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-dadbod'
   Plug 'mg979/vim-visual-multi', {'branch': 'master'}
   Plug 'JoosepAlviste/nvim-ts-context-commentstring'
   Plug 'phaazon/hop.nvim'

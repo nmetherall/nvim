@@ -90,7 +90,7 @@ EOF
 lua << EOF
 require('hop').setup { keys = 'etovxqpdygfblzhckisuran', jump_on_sole_occurrence = false }
 EOF
-nnoremap <leader>h <cmd>lua require('hop').hint_words()<cr>
+nnoremap <leader>f <cmd>lua require('hop').hint_words()<cr>
 
 "Coc
 
@@ -181,8 +181,8 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>rn <Plug>(coc-rename)
 
 " Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+" xmap <leader>f  <Plug>(coc-format-selected)
+" nmap <leader>f  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!

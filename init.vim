@@ -39,7 +39,9 @@ call plug#begin("~/.vim/plugged")
   Plug 'nvim-telescope/telescope-fzf-native.nvim'
 
   Plug 'RRethy/nvim-base16'
-  Plug 'Mofiqul/vscode.nvim'
+  " Plug 'Mofiqul/vscode.nvim'
+  Plug 'Mofiqul/vscode.nvim', { 'commit' : 'c5125820a0915ef50f03fae10423c43dc49c66b1' } 
+
   Plug 'xiyaowong/nvim-transparent'
 call plug#end()
 
@@ -51,11 +53,15 @@ colorscheme vscode
 
 let g:transparent_enabled = v:true
 
-"Tabs As Spaces
+" Tabs As Spaces
 set smartindent
 set tabstop=2
 set expandtab
 set shiftwidth=2
+
+" Folding
+autocmd FileType * setl foldmethod=syntax
+autocmd FileType * setl foldlevelstart=99
 
 " Prettier
 let g:prettier#autoformat = 1

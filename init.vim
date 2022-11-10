@@ -83,14 +83,20 @@ nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
 " JSX commentstring
 lua << EOF
-require('nvim-treesitter.configs').setup {
+require("nvim-treesitter.configs").setup({
+  ensure_installed = { "typescript", "tsx", "json", "fish", "bash", "javascript", "css", "scss", "html" },
   highlight = {
-    enable = true,
+    enable = false,
+    custom_captures = {
+      ["property"] = "TSVariable",
+      ["parameter"] = "TSVariable",
+      ["variable.function"] = "TSVariable",
+    },
   },
   context_commentstring = {
     enable = true
   }
-}
+})
 EOF
 
 "hop

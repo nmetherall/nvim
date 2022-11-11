@@ -23,33 +23,51 @@ call plug#begin("~/.vim/plugged")
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-dadbod'
-  Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+  Plug 'tpope/vim-fugitive'
   Plug 'JoosepAlviste/nvim-ts-context-commentstring'
-  Plug 'phaazon/hop.nvim'
 
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'prettier/vim-prettier'
 
-  Plug 'tpope/vim-fugitive'
   Plug 'airblade/vim-gitgutter'
   Plug 'nvim-lua/plenary.nvim'
 
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim'
 
-  Plug 'RRethy/nvim-base16'
-  " Plug 'Mofiqul/vscode.nvim'
-  Plug 'Mofiqul/vscode.nvim', { 'commit' : 'c5125820a0915ef50f03fae10423c43dc49c66b1' } 
-
-  Plug 'xiyaowong/nvim-transparent'
+  Plug 'Mofiqul/vscode.nvim'
+  " Plug 'xiyaowong/nvim-transparent'
 call plug#end()
 
 " Theme
-let g:vscode_style = "dark"
-let g:vscode_italic_comment = 1
-let g:vscode_disable_nvimtree_bg = v:true
-colorscheme vscode
+" let g:vscode_style = "dark"
+" let g:vscode_italic_comment = 1
+" let g:vscode_disable_nvimtree_bg = v:true
+" colorscheme vscode
+
+lua << EOF
+  -- For dark theme (neovim's default)
+  vim.o.background = 'dark'
+  local c = require('vscode.colors')
+  require('vscode').setup({
+      -- Enable transparent background
+      transparent = true,
+
+      -- Enable italic comment
+      italic_comments = true,
+
+      -- Disable nvim-tree background color
+      disable_nvimtree_bg = true,
+
+      -- Override highlight groups (see ./lua/vscode/theme.lua)
+      group_overrides = {
+          -- this supports the same val table as vim.api.nvim_set_hl
+          -- use colors from this colorscheme by requiring vscode.colors!
+          -- Cursor = { fg=c.vscDarkBlue, bg=c.vscLightGreen, bold=true },
+      }
+  })
+EOF
 
 let g:transparent_enabled = v:true
 
@@ -81,12 +99,11 @@ nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
-" JSX commentstring
 lua << EOF
 require("nvim-treesitter.configs").setup({
-  ensure_installed = { "typescript", "tsx", "json", "fish", "bash", "javascript", "css", "scss", "html" },
+  ensure_installed = { "lua", "vim", "typescript", "tsx", "json", "fish", "bash", "javascript", "css", "scss", "html", "svelte", "typescript" },
   highlight = {
-    enable = false,
+    enable = true,
     custom_captures = {
       ["property"] = "TSVariable",
       ["parameter"] = "TSVariable",
@@ -99,11 +116,6 @@ require("nvim-treesitter.configs").setup({
 })
 EOF
 
-"hop
-lua << EOF
-require('hop').setup { keys = 'etovxqpdygfblzhckisuran', jump_on_sole_occurrence = false }
-EOF
-nnoremap <leader>f <cmd>lua require('hop').hint_words()<cr>
 
 "Coc
 
@@ -271,4 +283,4 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 " CoC extensions
-let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-tailwindcss', 'coc-spell-checker', 'coc-pairs', 'coc-emmet', 'coc-css', 'coc-html']
+let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-tailwindcss', 'coc-spell-checker', 'coc-pairs', 'coc-emmet', 'coc-css', 'coc-html', 'coc-svelte']

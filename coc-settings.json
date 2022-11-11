@@ -6,6 +6,7 @@
     "Backcast",
     "Bouldering",
     "Cheatsheet",
+    "DDTHH",
     "DEMOLDED",
     "DUJOUR",
     "Dataurl",
@@ -18,6 +19,7 @@
     "Hilti",
     "Hollowback",
     "Hollowbacks",
+    "Inlayed",
     "Jitsu",
     "Overpour",
     "Paduk",
@@ -117,5 +119,6 @@
     "vsrmmd",
     "vsrmsm",
     "walkthroughs"
-  ]
+  ],
+  "svelte.enable-ts-plugin": true
 }

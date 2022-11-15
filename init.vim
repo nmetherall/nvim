@@ -2,9 +2,6 @@
 inoremap jk <Esc>
 set number
 
-inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
 function GitBranch()
     return trim(system("git rev-parse --abbrev-ref HEAD 2>/dev/null"))
 endfunction
@@ -14,7 +11,7 @@ function! StatuslineGit()
   return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
 endfunction
 
-set statusline+=%#CocListBlackBlue#%{StatuslineGit()}%#StatusLine#
+set statusline+=%#Folded#%{StatuslineGit()}%#StatusLine#
 set statusline+=\ \ %f 
 set statusline+=%=
 " set statusline+=\ \ \ %{coc#status()}%{get(b:,'coc_current_function','')}\ 

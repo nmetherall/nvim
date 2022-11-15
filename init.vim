@@ -17,7 +17,7 @@ endfunction
 set statusline+=%#CocListBlackBlue#%{StatuslineGit()}%#StatusLine#
 set statusline+=\ \ %f 
 set statusline+=%=
-set statusline+=\ \ \ %{coc#status()}%{get(b:,'coc_current_function','')}\ 
+" set statusline+=\ \ \ %{coc#status()}%{get(b:,'coc_current_function','')}\ 
 set statusline+=\ \ %l:%c
 set statusline+=\ %p%%
 set statusline+=\ \ %#TermCursor#\ %{strftime('%X')}\ %#StatusLine#
@@ -27,21 +27,28 @@ call plug#begin("~/.vim/plugged")
   Plug 'tpope/vim-commentary'
   Plug 'tpope/vim-dadbod'
   Plug 'tpope/vim-fugitive'
+
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'prettier/vim-prettier'
 
   Plug 'airblade/vim-gitgutter'
-  Plug 'nvim-lua/plenary.nvim'
 
+  Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim'
 
   Plug 'Mofiqul/vscode.nvim'
 
-  Plug 'nvim-lua/completion-nvim' 
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-cmdline'
+  Plug 'hrsh7th/nvim-cmp'
+
+  Plug 'jose-elias-alvarez/null-ls.nvim'
 
   Plug 'williamboman/mason.nvim'
   Plug 'williamboman/mason-lspconfig.nvim'
@@ -116,14 +123,42 @@ require("nvim-treesitter.configs").setup({
 })
 EOF
 
+set completeopt=menu,menuone,noselect
+
 " lspconfig
 lua << EOF
+-- Set up nvim-cmp.
+local cmp = require'cmp'
+
+cmp.setup({
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+  }),
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+  }, {
+    { name = 'buffer' },
+  })
+})
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+vim.diagnostic.config({
+  virtual_text = false,
+  signs = false
+})
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '[e', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', ']e', vim.diagnostic.goto_next, opts)
+vim.keymap.set('n', '[e', function() vim.diagnostic.goto_prev{severity='ERROR'} end, opts)
+vim.keymap.set('n', ']e', function() vim.diagnostic.goto_next{severity='ERROR'} end, opts)
+vim.keymap.set('n', '[g', vim.diagnostic.goto_prev, opts)
+vim.keymap.set('n', ']g', vim.diagnostic.goto_next, opts)
 vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
 -- Use an on_attach function to only map the following keys
@@ -150,28 +185,49 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 
+vim.o.updatetime = 250
+vim.api.nvim_create_autocmd("CursorHold", {
+  buffer = bufnr,
+  callback = function()
+    local opts = {
+      focusable = false,
+      close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+      border = 'rounded',
+      source = 'always',
+      prefix = ' ',
+      scope = 'cursor',
+    }
+    vim.diagnostic.open_float(nil, opts)
+  end
+})
+
 local lsp_flags = {
   -- This is the default in Nvim 0.7+
   debounce_text_changes = 150,
 }
 
-require("mason").setup{
-  ui = {
-    check_outdated_packages_on_open = true,
-    icons = {
-        server_installed = "✓",
-        server_pending = "➜",
-        server_uninstalled = "✗"
-    }
-  },
+require("mason").setup{}
+
+require('mason-lspconfig').setup{ 
+  automatic_installation = true,
+  -- ensure_installed = { "cspell" }
 }
 
-require('mason-lspconfig').setup{ automatic_installation = true }
-
+require('lspconfig')['sumneko_lua'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+    filetypes = { "lua" },
+    root_dir = function() return vim.loop.cwd() end,
+}
 require('lspconfig')['tsserver'].setup{
     on_attach = on_attach,
     flags = lsp_flags,
     filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+    root_dir = function() return vim.loop.cwd() end,
+}
+require('lspconfig')['tailwindcss'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
     root_dir = function() return vim.loop.cwd() end,
 }
 require('lspconfig')['svelte'].setup{
@@ -179,16 +235,19 @@ require('lspconfig')['svelte'].setup{
     flags = lsp_flags,
     root_dir = function() return vim.loop.cwd() end,
 }
-require('lspconfig')['cspell'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    root_dir = function() return vim.loop.cwd() end,
-}
-require('lspconfig')['codespell'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    root_dir = function() return vim.loop.cwd() end,
-}
 
+local null_ls = require('null-ls')
+require('null-ls').setup{
+  sources = {
+    null_ls.builtins.diagnostics.cspell.with({ 
+      diagnostics_postprocess = function(diagnostic)
+        diagnostic.severity = vim.diagnostic.severity["WARN"]
+      end,
+      filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "svelte" },
+      -- extra_args = { '--config', '~/.config/nvim/cspell.json' }
+    }),
+    null_ls.builtins.code_actions.cspell,
+  },
+  on_attach = on_attach
+}
 EOF
-

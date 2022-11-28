@@ -282,6 +282,6 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
-" 'coc-pairs',
+"  'coc-emmet',
 " CoC extensions
-let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-tailwindcss', 'coc-spell-checker', 'coc-emmet', 'coc-css', 'coc-html', 'coc-svelte']
+let g:coc_global_extensions = ['coc-json', 'coc-pairs', 'coc-tsserver', 'coc-tailwindcss', 'coc-spell-checker',  'coc-css', 'coc-html', 'coc-svelte']
